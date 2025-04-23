@@ -22,7 +22,7 @@ def getHorsePageLink(home_url, url):
         horse_url[horse_name] = horse_page
 
 
-def getHorseData(horse_name, horse_page, savefile):
+def getHorseData(horse_name, str_code, horse_page, savefile):
     csv_header = []
     csv_body = []
 
@@ -43,17 +43,13 @@ def getHorseData(horse_name, horse_page, savefile):
                 data.append(str(td.string))
         csv_body.append(data)
 
-    with open('{}/{}.csv'.format(savefile, horse_name), 'w') as f:
+    with open('{}/{}.csv'.format(savefile, horse_name), 'w', encoding=str_code) as f:
         writer = csv.writer(f)
         writer.writerow(csv_header)
         writer.writerows(csv_body)
 
 
-def main(savefile, home_url, url):
+def main(savefile, str_code, home_url, url):
     getHorsePageLink(home_url, url)
     for horse_name, horse_page in tqdm(horse_url.items()):
-        getHorseData(horse_name, horse_page, savefile)
-
-
-if __name__ == '__main__':
-    main('../dataset', 'https://www.jra.go.jp', 'https://www.jra.go.jp/JRADB/accessS.html?CNAME=pw01sde1006202503081120250420/B8')
+        getHorseData(horse_name, str_code, horse_page, savefile)
